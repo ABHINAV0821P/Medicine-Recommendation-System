@@ -1,0 +1,56 @@
+/*-----------------------------------*\
+  #PRELOAD
+\*-----------------------------------*/
+
+.preload {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.preload > * { transition: 300ms ease; }
+
+.preload.loaded > * { opacity: 0; }
+
+.preload.loaded {
+  transition-delay: 600ms;
+  transform: translateY(100%);
+}
+
+.preload .circle {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #fff;
+  border-top: 5px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.preload .text {
+  color: #fff;
+  margin-top: 10px;
+  font-size: 1.2rem;
+}
+
+@keyframes reverse-spin {
+    to { transform: rotate(-360deg); }
+  }
+  .animate-reverse-spin {
+    animation: reverse-spin 1.5s linear infinite;
+  }
