@@ -45,7 +45,7 @@
           });
 
           // Use the Places API to find nearby hospitals related to the disease
-          const predictedDisease = "hospital"; // Default keyword since we are not passing the disease
+          const predictedDisease = "{{ predicted_disease }}"; // Get the predicted disease from the backend
           const service = new google.maps.places.PlacesService(map);
           service.nearbySearch(
             {
@@ -80,6 +80,6 @@
     }
   }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDr8ILc_-yzqFjMmhuCNvM1AkvD-9T3RoM&callback=initMap&libraries=places" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap&libraries=places" async defer></script>
   </body>
 </html>
