@@ -205,8 +205,7 @@ def home():
                     my_precautions=my_precautions,
                     medications=medications,
                     my_diet=rec_diet,
-                    workout=workout,
-                    show_map=True
+                    workout=workout
                 )
             except Exception as e:
                 message = f"Error: {str(e)}"
@@ -238,10 +237,6 @@ def developer():
 @app.route('/blog')
 def blog():
     return render_template("blog.html")
-
-@app.route('/map')
-def map():
-    return render_template('map.html')
 
 if __name__ == '__main__':
 
