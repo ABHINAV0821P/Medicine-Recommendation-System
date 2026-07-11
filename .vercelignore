@@ -1,0 +1,12 @@
+main/
+.git/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.ipynb
+server.log
+tempCodeRunnerFile.py
+check_models.py
+import pandas as pd.py
+templates/icons.html

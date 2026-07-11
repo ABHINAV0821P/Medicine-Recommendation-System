@@ -5,8 +5,13 @@
 __pycache__/
 *.pyc
 Python/
+main/
 venv/
 .DS_Store
+
+# Local logs and editor temp files
+server.log
+tempCodeRunnerFile.py
 
 # Ignore IDE settings (optional)
 .vscode/

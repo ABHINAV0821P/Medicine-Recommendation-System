@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify  # Import jsonify
+from flask import Flask, request, render_template, jsonify, redirect, url_for
 import numpy as np
 import pandas as pd
 import pickle
@@ -57,12 +57,15 @@ else:
         except Exception as list_err:
             print(f"Could not list models: {list_err}")
     print("Gemini AI Model Initialized.")
-# flask app
-app = Flask(__name__)
-
 # --- Path Setup ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, 'Model')
+DATASET_DIR = os.path.join(BASE_DIR, 'Datasets')
+PUBLIC_DIR = os.path.join(BASE_DIR, 'public')
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+
+# flask app
+app = Flask(__name__, template_folder=TEMPLATES_DIR, static_folder=PUBLIC_DIR, static_url_path='/static')
 
 # --- Data and Model Loading ---
 
@@ -79,11 +82,11 @@ with open(os.path.join(MODEL_DIR, 'diseases_list.pkl'), 'rb') as f:
 normalized_symptoms_dict = {key.lower().strip(): value for key, value in symptoms_dict.items()}
 
 # Load datasets into memory at startup for efficiency
-description_df = pd.read_csv("datasets/description.csv", index_col='Disease')
-precautions_df = pd.read_csv("datasets/precautions_df.csv", index_col='Disease')
-medications_df = pd.read_csv('datasets/medications.csv', index_col='Disease')
-diets_df = pd.read_csv("datasets/diets.csv", index_col='Disease')
-workout_df = pd.read_csv("datasets/workout_df.csv", index_col='disease')
+description_df = pd.read_csv(os.path.join(DATASET_DIR, 'description.csv'), index_col='Disease')
+precautions_df = pd.read_csv(os.path.join(DATASET_DIR, 'precautions_df.csv'), index_col='Disease')
+medications_df = pd.read_csv(os.path.join(DATASET_DIR, 'medications.csv'), index_col='Disease')
+diets_df = pd.read_csv(os.path.join(DATASET_DIR, 'diets.csv'), index_col='Disease')
+workout_df = pd.read_csv(os.path.join(DATASET_DIR, 'workout_df.csv'), index_col='disease')
 
 # --- Helper Functions ---
 
@@ -216,27 +219,26 @@ def home():
 
 @app.route('/symptoms')
 def symptoms():
-    valid_symptoms = list(symptoms_dict.keys())
-    return render_template('symptoms.html', symptoms=valid_symptoms)
+    return jsonify({"symptoms": sorted(symptoms_dict.keys())})
 
 # about view funtion and path
 @app.route('/about')
 def about():
-    return render_template("about.html")
+    return redirect(url_for("index"))
 # contact view funtion and path
 @app.route('/contact')
 def contact():
-    return render_template("contact.html")
+    return redirect(url_for("index", _anchor="contact"))
 
 # developer view funtion and path
 @app.route('/developer')
 def developer():
-    return render_template("developer.html")
+    return redirect(url_for("index"))
 
 # about view funtion and path
 @app.route('/blog')
 def blog():
-    return render_template("blog.html")
+    return redirect(url_for("index"))
 
 if __name__ == '__main__':
 
